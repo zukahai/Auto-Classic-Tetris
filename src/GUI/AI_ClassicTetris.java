@@ -31,7 +31,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.io.*;
 
-public class ClassicTetris extends JFrame implements KeyListener{
+public class AI_ClassicTetris extends JFrame implements KeyListener{
 	Container cn;
 	JPanel pn;
 	Timer timer = new Timer(100, null);
@@ -48,7 +48,7 @@ public class ClassicTetris extends JFrame implements KeyListener{
 	Color cl[] = {Color.black, Color.blue, Color.cyan, Color.green, Color.magenta, Color.orange, Color.red, Color.yellow};
 	Cubes p = new Cubes();
 	Cubes [] Que = new Cubes[5];
-	public ClassicTetris() {
+	public AI_ClassicTetris() {
 		super("HaiZuka");
 		cn = init();
 		timer = new Timer(1, new ActionListener() {
@@ -497,7 +497,7 @@ public class ClassicTetris extends JFrame implements KeyListener{
 	}
 	
 	public static void main(String[] args) {
-		new ClassicTetris();
+		new AI_ClassicTetris();
 	}
 
 	@Override

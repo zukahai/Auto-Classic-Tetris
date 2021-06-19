@@ -1,12 +1,12 @@
 package Main;
 
-import GUI.ClassicTetris;
+import GUI.AI_ClassicTetris;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new ClassicTetris();
+		new AI_ClassicTetris();
 	}
 
 }
