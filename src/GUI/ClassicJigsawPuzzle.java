@@ -56,8 +56,15 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 				if (index == 0) {
 					p.down();
 //					p.display();
-					if (!p.check(b))
+					if (!p.check(b)) {
+						p.up();
+						Vector<Squar>  pp = p.getV();
+						for (int i = 0; i < pp.size(); i++) {
+							Squar sq = pp.elementAt(i);
+							b[sq.getX()][sq.getY()] = false;
+						}
 						newPuzz();
+					}
 					else {
 						try {
 							sound(4);
@@ -197,59 +204,103 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		for (int i = 0; i < M + 3; i++)
 			for (int j = 3; j < N + 3; j++)
 				t[i][j] = b[i][j];
-		
-		for (int tt2 = -5; tt2 <= 5; tt2 ++) {
-			Cubes t_cb = new Cubes(p);
-			t_cb.down();
-			if (tt2 < 0) {
-				for (int i = 0; i < -tt2; i++)
-					t_cb.left();
-				if (!t_cb.check(b)) {
-					System.out.println(tt2 + "---");
-					continue;
-				}
-					
-			} else {
-				for (int i = 0; i < tt2; i++)
-					t_cb.right();
-				if (!t_cb.check(b)) {
-					System.out.println(tt2 + "---");
-					continue;
-				}
-			}
-			
-			while (t_cb.check(t))
+		for (int tt1 = 0; tt1 <= 3; tt1++) {
+			Cubes t_cb2 = new Cubes(p);
+			for (int i = 0; i < tt1; i++)
+				t_cb2.turnRight();
+			for (int tt2 = -5; tt2 <= 5; tt2 ++) {
+				Cubes t_cb = new Cubes(t_cb2);
+//				t_cb.display();
 				t_cb.down();
-			t_cb.up();
-			Vector<Squar> pp = t_cb.getV();
-			for (int i = 0; i < pp.size(); i++) {
-				Squar sq = pp.elementAt(i);
-				t[sq.getX()][sq.getY()] = false;
+				if (tt2 < 0) {
+					for (int i = 0; i < -tt2; i++)
+						t_cb.left();
+					if (!t_cb.check(b)) {
+//						System.out.println(tt2 + "---");
+						continue;
+					}
+						
+				} else {
+					for (int i = 0; i < tt2; i++)
+						t_cb.right();
+					if (!t_cb.check(b)) {
+//						System.out.println(tt1 + " " + tt2 + "- thaotac- ");
+						continue;
+					}
+				}
+				
+				while (t_cb.check(t))
+					t_cb.down();
+				t_cb.up();
+				Vector<Squar> pp = t_cb.getV();
+				for (int i = 0; i < pp.size(); i++) {
+					Squar sq = pp.elementAt(i);
+					t[sq.getX()][sq.getY()] = false;
+				}
+				int ck = checkScore();
+				System.out.println("Score " + tt1 + " " + tt2 + " " + ck);
+				if (ck > max) {
+					max = ck;
+					thaotac[0] = tt1;
+					thaotac[1] = tt2;
+				}
+				for (int i = 0; i < M + 3; i++)
+					for (int j = 3; j < N + 3; j++)
+						t[i][j] = b[i][j];
 			}
-			int ck = checkScore();
-			System.out.println(tt2 + " " + ck);
-			if (ck > max) {
-				max = ck;
-				thaotac[1] = tt2;
-			}
-			for (int i = 0; i < M + 3; i++)
-				for (int j = 3; j < N + 3; j++)
-					t[i][j] = b[i][j];
 		}
+		
 		
 		return thaotac;
 	}
 	
 	int checkScore() {
-		int d = 0;
+		int d = 0, leng = 100, ho = 0, countR = 0;
 		for (int j = 3; j < N + 3; j++) {
 			int i = 3;
+			int l = 0;
 			while (i < M + 3 && t[i][j]) {
 				d++;
 				i++;
+				l++;
 			}
+			if (leng > l)
+				leng = l;
 		}
-		return d;
+		leng = 22 - leng;
+		for (int i = 3; i < M + 3 - 1; i++)
+			for (int j = 3; j < N + 3; j++)
+				if (!t[i][j]) {
+					int I = i + 1;
+					while (I < M + 3 && t[I][j]) {
+						I++;
+						ho++;
+					}
+				}
+		for (int i = 3; i < M + 3; i++) {
+			boolean kt = true;
+			for (int j = 3; j < N + 3; j++)
+				if (t[i][j] == true)
+					kt = false;
+			if (kt)
+				countR++;
+		}
+		switch (countR) {
+		case 1:
+			d += 100;
+			break;
+		case 2:
+			d += 400;
+			break;
+		case 3:
+			d += 900;
+			break;
+		case 4:
+			d += 3000;
+			break;
+		}
+		System.out.println("--------- " + countR);
+		return d - leng - ho * 10;
 	}
 	
 	public void newPuzz() {
@@ -259,21 +310,23 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		p.up();
+//		p.up();
 //		Vector<Squar>  pp = p.getV();
 //		for (int i = 0; i < pp.size(); i++) {
 //			Squar sq = pp.elementAt(i);
 //			b[sq.getX()][sq.getY()] = false;
 //		}
-		for (int i = 0; i < M + 3; i++)
-			for (int j = 3; j < N + 3; j++)
-				b[i][j] = t[i][j];
+//		for (int i = 0; i < M + 3; i++)
+//			for (int j = 3; j < N + 3; j++)
+//				b[i][j] = t[i][j];
 		updateQue();
 		
 		int a[] = AI();
 		System.out.println(a[0] + " " + a[1]);
 		
 		Cubes t_cb = new Cubes(p);
+		for (int i = 0; i < a[0]; i++)
+			t_cb.turnRight();
 		if (a[1] < 0) {
 			for (int i = 0; i < -a[1]; i++)
 				t_cb.left();
@@ -291,6 +344,8 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			t[sq.getX()][sq.getY()] = false;
 		}
 		printArray(t);
+		for (int i = 0; i < a[0]; i++)
+			p.turnRight();
 		if (a[1] < 0) {
 			for (int i = 0; i < -a[1]; i++)
 				p.left();
@@ -466,6 +521,12 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		} else if (e.getKeyCode() == e.VK_DOWN) {
 			p.down();
 			if (!p.check(b)) {
+				p.up();
+				Vector<Squar>  pp = p.getV();
+				for (int i = 0; i < pp.size(); i++) {
+					Squar sq = pp.elementAt(i);
+					b[sq.getX()][sq.getY()] = false;
+				}
 				newPuzz();
 			} else {
 				try {

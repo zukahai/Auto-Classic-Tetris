@@ -24,6 +24,7 @@ public class Cubes {
 			rand += 2;
 		if (rand == 8)
 			rand = 7;
+//		rand = 1;
 		this.type = rand;
 		this.ic = (int) (1000000 * Math.random() % 7 + 1);
 		this.v = ininV();
@@ -165,12 +166,12 @@ public class Cubes {
 		for (int i = 0; i < this.v.size(); i++) {
 			Squar sq = this.v.elementAt(i);
 			if (sq.getY() < 0 || sq.getY() > 13) {
-				System.out.println("aaa");
+//				System.out.println("aaa");
 				return false;
 			}
 //			System.out.println(sq.getY());
 			if (b[sq.getX()][sq.getY()] == false) {
-				System.out.println(sq.getX() + " ooo " + sq.getY());
+//				System.out.println(sq.getX() + " ooo " + sq.getY());
 				return false;
 			}
 				
