@@ -30,6 +30,15 @@ public class Cubes {
 		this.bot = c[type];
 		this.top = d[type];
 	}
+	
+	public Cubes(Cubes c) {
+		this.tt = c.getTt();
+		this.type = c.getType();
+		this.ic = c.getIc();
+		this.v = c.getV();
+		this.bot = c.getBot();
+		this.top = c.getTop();
+	}
 
 	public int getIc() {
 		return ic;

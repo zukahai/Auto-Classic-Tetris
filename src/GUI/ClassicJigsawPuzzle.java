@@ -43,6 +43,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
 	boolean b[][] = new boolean[M + 5][N + 9];
+	boolean t[][] = new boolean[M + 5][N + 9];
 	int preCl = 0;
 	Color cl[] = {Color.black, Color.blue, Color.cyan, Color.green, Color.magenta, Color.orange, Color.red, Color.yellow};
 	Cubes p = new Cubes();
@@ -72,7 +73,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 //				System.out.println(delay);
 			}
 		});
-		timer.start();
+//		timer.start();
 	}
 	
 	public Container init() {
@@ -121,22 +122,23 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		setResizable(false);
 		setTextScoreLineSpeed();
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		return cn;
 	}
 	
 	public void sound(int index) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		try {
-			File file = new File("src/Sound/" + index + ".wav");
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioStream);
-			String response = "";
-			clip.start();
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		return;
+//		try {
+//			File file = new File("src/Sound/" + index + ".wav");
+//			AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+//			Clip clip = AudioSystem.getClip();
+//			clip.open(audioStream);
+//			String response = "";
+//			clip.start();
+//		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 	}
 	
 	public int sub(int N) {
@@ -171,6 +173,53 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		}
 	}
 	
+	public void printArray() {
+		for (int i = 3; i < M + 3; i++) {
+			for (int j = 3; j < N + 3; j++)
+				if (t[i][j])
+					System.out.print("1 ");
+				else 
+					System.out.print("0 ");
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println();
+	}
+	
+	public int[] AI() {
+		int max = -10000;
+		int thaotac[] = new int[3];
+		Vector<Squar> v = p.getV();
+		for (int i = 3; i < M + 3; i++)
+			for (int j = 3; j < N + 3; j++)
+				t[i][j] = b[i][j];
+		Cubes t_cb = new Cubes(p);
+		while (t_cb.check(t))
+			t_cb.down();
+		t_cb.up();
+		Vector<Squar> pp = t_cb.getV();
+		for (int i = 0; i < pp.size(); i++) {
+			Squar sq = pp.elementAt(i);
+			t[sq.getX()][sq.getY()] = false;
+		}
+		int ck = checkScore();
+		if (ck > max) {
+			max = ck;
+		}
+		return thaotac;
+	}
+	
+	int checkScore() {
+		int d = 0;
+		for (int j = 3; j < N + 3; j++) {
+			int i = 3;
+			while (i < M + 3 && t[i][j]) {
+				d++;
+				i++;
+			}
+		}
+		return d;
+	}
 	
 	public void updateScore() {
 		int temp = score;
@@ -332,6 +381,8 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		AI();
+		printArray();
 		if (die) 
 			return;
 		if (e.getKeyCode() == e.VK_UP) {
