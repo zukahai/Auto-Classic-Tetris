@@ -164,7 +164,13 @@ public class Cubes {
 	public boolean check(boolean b[][]) {
 		for (int i = 0; i < this.v.size(); i++) {
 			Squar sq = this.v.elementAt(i);
+			if (sq.getY() < 0 || sq.getY() > 13) {
+				System.out.println("aaa");
+				return false;
+			}
+//			System.out.println(sq.getY());
 			if (b[sq.getX()][sq.getY()] == false) {
+				System.out.println(sq.getX() + " ooo " + sq.getY());
 				return false;
 			}
 				

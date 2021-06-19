@@ -79,6 +79,10 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	public Container init() {
 		Container cn = this.getContentPane();
 		
+		for (int i = 0; i < M + 3; i++)
+			for (int j = 3; j < N + 3; j++)
+				t[i][j] = true;
+		
 		pn = new JPanel();
 		pn.setLayout(new GridLayout(M, N + 6));
 		
@@ -115,7 +119,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 				pn.add(bt[i][j]);
 			}
 		cn.add(pn);
-		updateQue();
+		newPuzz();
 		this.setVisible(true);
 		this.setSize(500, 700);
 		this.setLocationRelativeTo(null);
@@ -173,10 +177,10 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		}
 	}
 	
-	public void printArray() {
-		for (int i = 3; i < M + 3; i++) {
+	public void printArray(boolean b[][]) {
+		for (int i = 0; i < M + 3; i++) {
 			for (int j = 3; j < N + 3; j++)
-				if (t[i][j])
+				if (b[i][j])
 					System.out.print("1 ");
 				else 
 					System.out.print("0 ");
@@ -188,24 +192,51 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	
 	public int[] AI() {
 		int max = -10000;
-		int thaotac[] = new int[3];
-		Vector<Squar> v = p.getV();
-		for (int i = 3; i < M + 3; i++)
+		int thaotac[] = new int[2];
+		
+		for (int i = 0; i < M + 3; i++)
 			for (int j = 3; j < N + 3; j++)
 				t[i][j] = b[i][j];
-		Cubes t_cb = new Cubes(p);
-		while (t_cb.check(t))
+		
+		for (int tt2 = -5; tt2 <= 5; tt2 ++) {
+			Cubes t_cb = new Cubes(p);
 			t_cb.down();
-		t_cb.up();
-		Vector<Squar> pp = t_cb.getV();
-		for (int i = 0; i < pp.size(); i++) {
-			Squar sq = pp.elementAt(i);
-			t[sq.getX()][sq.getY()] = false;
+			if (tt2 < 0) {
+				for (int i = 0; i < -tt2; i++)
+					t_cb.left();
+				if (!t_cb.check(b)) {
+					System.out.println(tt2 + "---");
+					continue;
+				}
+					
+			} else {
+				for (int i = 0; i < tt2; i++)
+					t_cb.right();
+				if (!t_cb.check(b)) {
+					System.out.println(tt2 + "---");
+					continue;
+				}
+			}
+			
+			while (t_cb.check(t))
+				t_cb.down();
+			t_cb.up();
+			Vector<Squar> pp = t_cb.getV();
+			for (int i = 0; i < pp.size(); i++) {
+				Squar sq = pp.elementAt(i);
+				t[sq.getX()][sq.getY()] = false;
+			}
+			int ck = checkScore();
+			System.out.println(tt2 + " " + ck);
+			if (ck > max) {
+				max = ck;
+				thaotac[1] = tt2;
+			}
+			for (int i = 0; i < M + 3; i++)
+				for (int j = 3; j < N + 3; j++)
+					t[i][j] = b[i][j];
 		}
-		int ck = checkScore();
-		if (ck > max) {
-			max = ck;
-		}
+		
 		return thaotac;
 	}
 	
@@ -219,6 +250,57 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			}
 		}
 		return d;
+	}
+	
+	public void newPuzz() {
+		try {
+			sound(2);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		p.up();
+//		Vector<Squar>  pp = p.getV();
+//		for (int i = 0; i < pp.size(); i++) {
+//			Squar sq = pp.elementAt(i);
+//			b[sq.getX()][sq.getY()] = false;
+//		}
+		for (int i = 0; i < M + 3; i++)
+			for (int j = 3; j < N + 3; j++)
+				b[i][j] = t[i][j];
+		updateQue();
+		
+		int a[] = AI();
+		System.out.println(a[0] + " " + a[1]);
+		
+		Cubes t_cb = new Cubes(p);
+		if (a[1] < 0) {
+			for (int i = 0; i < -a[1]; i++)
+				t_cb.left();
+		} else {
+			for (int i = 0; i < a[1]; i++)
+				t_cb.right();
+		}
+		while (t_cb.check(t))
+			t_cb.down();
+		t_cb.up();
+		
+		Vector<Squar> pp = t_cb.getV();
+		for (int i = 0; i < pp.size(); i++) {
+			Squar sq = pp.elementAt(i);
+			t[sq.getX()][sq.getY()] = false;
+		}
+		printArray(t);
+		if (a[1] < 0) {
+			for (int i = 0; i < -a[1]; i++)
+				p.left();
+		} else {
+			for (int i = 0; i < a[1]; i++)
+				p.right();
+		}
+//		while (p.check(b))
+//			p.down();
+//		p.up();
 	}
 	
 	public void updateScore() {
@@ -362,27 +444,10 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		
 	}
 
-	public void newPuzz() {
-		try {
-			sound(2);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		p.up();
-		Vector<Squar> pp = p.getV();
-		for (int i = 0; i < pp.size(); i++) {
-			Squar sq = pp.elementAt(i);
-			b[sq.getX()][sq.getY()] = false;
-		}
-		updateQue();
-	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		AI();
-		printArray();
 		if (die) 
 			return;
 		if (e.getKeyCode() == e.VK_UP) {
