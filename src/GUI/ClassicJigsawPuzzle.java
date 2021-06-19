@@ -36,7 +36,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	JPanel pn;
 	Timer timer = new Timer(100, null);
 	int M = 22, N = 10;
-	int delay = 60;
+	int delay = 1;
 	int index = delay;
 	int score = 0;
 	int line = 0;
@@ -53,7 +53,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 		cn = init();
 		timer = new Timer(1, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (index == 0) {
+				if (true) {
 					p.down();
 //					p.display();
 					if (!p.check(b)) {
@@ -80,7 +80,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 //				System.out.println(delay);
 			}
 		});
-//		timer.start();
+		timer.start();
 	}
 	
 	public Container init() {
@@ -272,10 +272,18 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			for (int j = 3; j < N + 3; j++)
 				if (!t[i][j]) {
 					int I = i + 1;
+					int ho2 = 0;
+					int sl = 1;
 					while (I < M + 3 && t[I][j]) {
 						I++;
-						ho++;
+						ho2++;
 					}
+					I = i - 1;
+					while (I >= 0 && !t[I][j]) {
+						I--;
+						sl++;
+					}
+					ho += ho2 * sl;
 				}
 		for (int i = 3; i < M + 3; i++) {
 			boolean kt = true;
@@ -300,7 +308,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			break;
 		}
 		System.out.println("--------- " + countR);
-		return d - leng - ho * 10;
+		return d - leng - ho * 200;
 	}
 	
 	public void newPuzz() {
@@ -437,8 +445,8 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 				countR++;
 				line++;
 				delay -= sub(line);
-				if (delay < 5)
-					delay = 5;
+				if (delay < 1)
+					delay = 1;
 				updateScore();
 				for (int h = i; h >= 1; h--)
 					for (int j = 3; j < N + 3; j++) {
