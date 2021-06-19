@@ -31,7 +31,7 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.io.*;
 
-public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
+public class ClassicTetris extends JFrame implements KeyListener{
 	Container cn;
 	JPanel pn;
 	Timer timer = new Timer(100, null);
@@ -48,12 +48,12 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	Color cl[] = {Color.black, Color.blue, Color.cyan, Color.green, Color.magenta, Color.orange, Color.red, Color.yellow};
 	Cubes p = new Cubes();
 	Cubes [] Que = new Cubes[5];
-	public ClassicJigsawPuzzle() {
+	public ClassicTetris() {
 		super("HaiZuka");
 		cn = init();
 		timer = new Timer(1, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (true) {
+				if (index == 0) {
 					p.down();
 //					p.display();
 					if (!p.check(b)) {
@@ -255,7 +255,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	}
 	
 	int checkScore() {
-		int d = 0, leng = 100, ho = 0, countR = 0;
+		int d = 0, leng = 0, ho = 0, countR = 0;
 		for (int j = 3; j < N + 3; j++) {
 			int i = 3;
 			int l = 0;
@@ -264,10 +264,8 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 				i++;
 				l++;
 			}
-			if (leng > l)
-				leng = l;
+			leng += (22 - l) * (22 - l);
 		}
-		leng = 22 - leng;
 		for (int i = 3; i < M + 3 - 1; i++)
 			for (int j = 3; j < N + 3; j++)
 				if (!t[i][j]) {
@@ -283,7 +281,8 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 						I--;
 						sl++;
 					}
-					ho += ho2 * sl;
+//					ho += ho2 * sl;
+					ho += ho2 * 1;
 				}
 		for (int i = 3; i < M + 3; i++) {
 			boolean kt = true;
@@ -307,7 +306,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 			d += 3000;
 			break;
 		}
-		System.out.println("--------- " + countR);
+		System.out.println("--------- " + leng);
 		return d - leng - ho * 200;
 	}
 	
@@ -498,7 +497,7 @@ public class ClassicJigsawPuzzle extends JFrame implements KeyListener{
 	}
 	
 	public static void main(String[] args) {
-		new ClassicJigsawPuzzle();
+		new ClassicTetris();
 	}
 
 	@Override

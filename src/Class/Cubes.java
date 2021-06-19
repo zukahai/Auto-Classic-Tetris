@@ -3,7 +3,7 @@ package Class;
 import java.awt.Color;
 import java.util.Vector;
 
-import GUI.ClassicJigsawPuzzle;
+import GUI.ClassicTetris;
 
 public class Cubes {
 	int d[] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -241,7 +241,7 @@ public class Cubes {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new ClassicJigsawPuzzle();
+		new ClassicTetris();
 	}
 
 }
