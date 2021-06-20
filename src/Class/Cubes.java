@@ -24,7 +24,7 @@ public class Cubes {
 			rand += 2;
 		if (rand == 8)
 			rand = 7;
-//		rand = 1;
+//		rand = 5;
 		this.type = rand;
 		this.ic = (int) (1000000 * Math.random() % 7 + 1);
 		this.v = ininV();

@@ -27,6 +27,9 @@ import Class.Cubes;
 import Class.Squar;
 
 import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.Vector;
 import java.io.*;
@@ -40,6 +43,8 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	int index = delay;
 	int score = 0;
 	int line = 0;
+	int NN = 0;
+	String str[] = new String[1000];
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
 	boolean b[][] = new boolean[M + 5][N + 9];
@@ -294,10 +299,10 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		}
 		switch (countR) {
 		case 1:
-			d += 100;
+			d += 250;
 			break;
 		case 2:
-			d += 400;
+			d += 600;
 			break;
 		case 3:
 			d += 900;
@@ -426,6 +431,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	public void update() {
 		if (die){
 			JOptionPane.showMessageDialog(null, "Your Score: " + score);
+			printScore();
 			System.exit(0);
 		}
 		int countR = 0;
@@ -494,10 +500,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		Image image = new ImageIcon(getClass().getResource("/Icons/" + index + ".png")).getImage();
 		Icon ic = new ImageIcon(image.getScaledInstance(w, h, image.SCALE_SMOOTH));
 		return ic;
-	}
-	
-	public static void main(String[] args) {
-		new AI_ClassicTetris();
 	}
 
 	@Override
@@ -573,9 +575,60 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		}
 	}
 
+	public void printScore() {
+		readScore();
+		File file = new File("Score.txt");
+		try (FileOutputStream fos = new FileOutputStream(file);
+	             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+	             BufferedWriter writer = new BufferedWriter(osw)
+	        ) {
+			for (int i = 0; i < NN; i++) {
+				writer.append(str[i]);
+	            writer.newLine();
+			}
+			
+			LocalDateTime myDateObj = LocalDateTime.now();
+//		    System.out.println("Before formatting: " + myDateObj);
+		    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+		    String formattedDate = myDateObj.format(myFormatObj);
+//		    System.out.println("After formatting: " + formattedDate);
+		    
+            writer.append("Score: " + score + "\tLine: " + line + "\t Time:" + formattedDate);
+            writer.newLine();
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	}
+	
+	public void readScore() {
+		NN = 0;
+		String FILE_URL = "Score.txt";
+    	File file = new File(FILE_URL);
+        InputStream inputStream;
+        try (
+        		FileInputStream fis = new FileInputStream(file);
+        		InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        		BufferedReader reader = new BufferedReader(isr)
+        	){
+				String line;
+				while ((line = reader.readLine()) != null) {
+					str[NN++] = line;
+				}
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void main(String[] args) {
+		new AI_ClassicTetris();
 	}
 }
