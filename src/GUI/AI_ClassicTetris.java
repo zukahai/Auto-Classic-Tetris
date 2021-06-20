@@ -48,7 +48,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
 	boolean b[][] = new boolean[M + 5][N + 9];
-	boolean t[][] = new boolean[M + 5][N + 9];
 	int preCl = 0;
 	Color cl[] = {Color.black, Color.blue, Color.cyan, Color.green, Color.magenta, Color.orange, Color.red, Color.yellow};
 	Cubes p = new Cubes();
@@ -91,9 +90,9 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	public Container init() {
 		Container cn = this.getContentPane();
 		
-		for (int i = 0; i < M + 3; i++)
-			for (int j = 3; j < N + 3; j++)
-				t[i][j] = true;
+//		for (int i = 0; i < M + 3; i++)
+//			for (int j = 3; j < N + 3; j++)
+//				t[i][j] = true;
 		
 		pn = new JPanel();
 		pn.setLayout(new GridLayout(M, N + 6));
@@ -202,9 +201,10 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		System.out.println();
 	}
 	
-	public int[] AI() {
-		int max = -10000;
-		int thaotac[] = new int[2];
+	public int[] AI(boolean b[][], Cubes p) {
+		boolean t[][] = new boolean[M + 5][N + 9];
+		int thaotac[] = new int[3];
+		thaotac[2] = -10000000;
 		
 		for (int i = 0; i < M + 3; i++)
 			for (int j = 3; j < N + 3; j++)
@@ -215,13 +215,11 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 				t_cb2.turnRight();
 			for (int tt2 = -5; tt2 <= 5; tt2 ++) {
 				Cubes t_cb = new Cubes(t_cb2);
-//				t_cb.display();
 				t_cb.down();
 				if (tt2 < 0) {
 					for (int i = 0; i < -tt2; i++)
 						t_cb.left();
 					if (!t_cb.check(b)) {
-//						System.out.println(tt2 + "---");
 						continue;
 					}
 						
@@ -229,7 +227,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 					for (int i = 0; i < tt2; i++)
 						t_cb.right();
 					if (!t_cb.check(b)) {
-//						System.out.println(tt1 + " " + tt2 + "- thaotac- ");
 						continue;
 					}
 				}
@@ -242,10 +239,10 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 					Squar sq = pp.elementAt(i);
 					t[sq.getX()][sq.getY()] = false;
 				}
-				int ck = checkScore();
+				int ck = checkScore(t);
 				System.out.println("Score " + tt1 + " " + tt2 + " " + ck);
-				if (ck > max) {
-					max = ck;
+				if (ck > thaotac[2]) {
+					thaotac[2] = ck;
 					thaotac[0] = tt1;
 					thaotac[1] = tt2;
 				}
@@ -259,7 +256,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		return thaotac;
 	}
 	
-	int checkScore() {
+	int checkScore(boolean t[][]) {
 		int d = 0, leng = 0, ho = 0, countR = 0;
 		for (int j = 3; j < N + 3; j++) {
 			int i = 3;
@@ -286,7 +283,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 						I--;
 						sl++;
 					}
-//					ho += ho2 * sl;
+//					ho += ho2 * Math.sqrt(sl);
 					ho += ho2 * 1;
 				}
 		for (int i = 3; i < M + 3; i++) {
@@ -299,7 +296,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		}
 		switch (countR) {
 		case 1:
-			d += 250;
+			d += 400;
 			break;
 		case 2:
 			d += 600;
@@ -312,7 +309,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 			break;
 		}
 		System.out.println("--------- " + leng);
-		return d - leng - ho * 200;
+		return d - leng - ho * 450;
 	}
 	
 	public void newPuzz() {
@@ -333,7 +330,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 //				b[i][j] = t[i][j];
 		updateQue();
 		
-		int a[] = AI();
+		int a[] = AI(b, p);
 		System.out.println(a[0] + " " + a[1]);
 		
 		Cubes t_cb = new Cubes(p);
@@ -346,16 +343,16 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 			for (int i = 0; i < a[1]; i++)
 				t_cb.right();
 		}
-		while (t_cb.check(t))
-			t_cb.down();
-		t_cb.up();
-		
-		Vector<Squar> pp = t_cb.getV();
-		for (int i = 0; i < pp.size(); i++) {
-			Squar sq = pp.elementAt(i);
-			t[sq.getX()][sq.getY()] = false;
-		}
-		printArray(t);
+//		while (t_cb.check(t))
+//			t_cb.down();
+//		t_cb.up();
+//		
+//		Vector<Squar> pp = t_cb.getV();
+//		for (int i = 0; i < pp.size(); i++) {
+//			Squar sq = pp.elementAt(i);
+//			t[sq.getX()][sq.getY()] = false;
+//		}
+//		printArray(t);
 		for (int i = 0; i < a[0]; i++)
 			p.turnRight();
 		if (a[1] < 0) {
@@ -430,7 +427,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	
 	public void update() {
 		if (die){
-			JOptionPane.showMessageDialog(null, "Your Score: " + score);
+			JOptionPane.showMessageDialog(null, "Your Score: " + score + "\n" + "Line: " + line);
 			printScore();
 			System.exit(0);
 		}
