@@ -30,3 +30,10 @@ Score: 1177	Line: 777	 Time:20-06-2021 21:44:24
 Score: 1508	Line: 864	 Time:20-06-2021 21:45:35
 Score: 1750	Line: 988	 Time:20-06-2021 22:01:24
 Score: 1719	Line: 1015	 Time:20-06-2021 22:01:26
+Score: 2957	Line: 1631	 Time:20-06-2021 22:22:07
+Score: 152	Line: 98	 Time:20-06-2021 22:47:41
+Score: 1045	Line: 519	 Time:20-06-2021 23:10:53
+Score: 1913	Line: 1011	 Time:20-06-2021 23:44:25
+Score: 1955	Line: 1053	 Time:20-06-2021 23:51:00
+Score: 862	Line: 456	 Time:21-06-2021 00:08:09
+Score: 1817	Line: 965	 Time:21-06-2021 00:17:05

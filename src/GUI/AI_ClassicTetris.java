@@ -57,8 +57,12 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		cn = init();
 		timer = new Timer(1, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (index == 0) {
-					p.down();
+//				if (index == 0) {
+				if (true) {
+					do {
+						p.down();
+					} while (p.check(b));
+					printArray(b);
 //					p.display();
 					if (!p.check(b)) {
 						p.up();
@@ -67,6 +71,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 							Squar sq = pp.elementAt(i);
 							b[sq.getX()][sq.getY()] = false;
 						}
+						update();
 						newPuzz();
 					}
 					else {
@@ -201,7 +206,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		System.out.println();
 	}
 	
-	public int[] AI(boolean b[][], Cubes p) {
+	public int[] AI(boolean b[][], Cubes p, int doSau) {
 		boolean t[][] = new boolean[M + 5][N + 9];
 		int thaotac[] = new int[3];
 		thaotac[2] = -10000000;
@@ -239,9 +244,16 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 					Squar sq = pp.elementAt(i);
 					t[sq.getX()][sq.getY()] = false;
 				}
+//				if (doSau == 2)
+//					printArray(t);
 				int ck = checkScore(t);
-				System.out.println("Score " + tt1 + " " + tt2 + " " + ck);
-				if (ck > thaotac[2]) {
+				int ck2 = 0;
+//				if (doSau == 1) {
+//					ck2 = AI(t, Que[0], 2)[2];
+//				}
+//				System.out.println("Ck2 ------------------ " + ck2);
+//				System.out.println("Score " + tt1 + " " + tt2 + " " + ck);
+				if (ck  + ck2 > thaotac[2]) {
 					thaotac[2] = ck;
 					thaotac[0] = tt1;
 					thaotac[1] = tt2;
@@ -308,7 +320,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 			d += 3000;
 			break;
 		}
-		System.out.println("--------- " + leng);
 		return d - leng - ho * 450;
 	}
 	
@@ -330,8 +341,8 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 //				b[i][j] = t[i][j];
 		updateQue();
 		
-		int a[] = AI(b, p);
-		System.out.println(a[0] + " " + a[1]);
+		int a[] = AI(b, p, 1);
+//		System.out.println(a[0] + " " + a[1]);
 		
 		Cubes t_cb = new Cubes(p);
 		for (int i = 0; i < a[0]; i++)
