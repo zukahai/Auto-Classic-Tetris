@@ -37,3 +37,16 @@ Score: 1913	Line: 1011	 Time:20-06-2021 23:44:25
 Score: 1955	Line: 1053	 Time:20-06-2021 23:51:00
 Score: 862	Line: 456	 Time:21-06-2021 00:08:09
 Score: 1817	Line: 965	 Time:21-06-2021 00:17:05
+Score: 1566	Line: 794	 Time:21-06-2021 00:27:02
+Score: 285	Line: 195	 Time:21-06-2021 00:29:32
+Score: 3212	Line: 1762	 Time:21-06-2021 00:52:39
+Score: 7152	Line: 3980	 Time:21-06-2021 00:52:47
+Score: 727	Line: 367	 Time:21-06-2021 01:01:14
+Score: 12218	Line: 6466	 Time:21-06-2021 01:12:44
+Score: 1344	Line: 684	 Time:21-06-2021 01:12:52
+Score: 4915	Line: 2763	 Time:21-06-2021 01:25:44
+Score: 6850	Line: 3738	 Time:21-06-2021 01:25:49
+Score: 13467	Line: 7299	 Time:21-06-2021 01:25:52
+Score: 7768	Line: 4276	 Time:21-06-2021 01:34:27
+Score: 1382	Line: 736	 Time:21-06-2021 01:44:37
+Score: 903	Line: 497	 Time:21-06-2021 01:44:39

@@ -44,7 +44,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	int score = 0;
 	int line = 0;
 	int NN = 0;
-	String str[] = new String[1000];
+	String str[] = new String[10000];
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
 	boolean b[][] = new boolean[M + 5][N + 9];
@@ -59,9 +59,9 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 			public void actionPerformed(ActionEvent e) {
 //				if (index == 0) {
 				if (true) {
-					do {
+//					do {
 						p.down();
-					} while (p.check(b));
+//					} while (p.check(b));
 					printArray(b);
 //					p.display();
 					if (!p.check(b)) {
