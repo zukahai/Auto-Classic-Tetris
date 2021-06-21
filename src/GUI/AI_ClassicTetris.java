@@ -43,6 +43,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	int index = delay;
 	int score = 0;
 	int line = 0;
+	String timeStar = "";
 	Vector <String> str = new Vector<>();
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
@@ -93,6 +94,12 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	
 	public Container init() {
 		Container cn = this.getContentPane();
+		
+		LocalDateTime myDateObj = LocalDateTime.now();
+//	    System.out.println("Before formatting: " + myDateObj);
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+	    timeStar = myDateObj.format(myFormatObj);
 		
 //		for (int i = 0; i < M + 3; i++)
 //			for (int j = 3; j < N + 3; j++)
@@ -584,7 +591,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 
 	public void printScore() {
 		readScore();
-		File file = new File("Score.txt");
+		File file = new File("Test/Score.txt");
 		try (FileOutputStream fos = new FileOutputStream(file);
 	             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
 	             BufferedWriter writer = new BufferedWriter(osw)
@@ -601,7 +608,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 		    String formattedDate = myDateObj.format(myFormatObj);
 //		    System.out.println("After formatting: " + formattedDate);
 		    
-            writer.append("Score: " + score + "\tLine: " + line + "\t Time:" + formattedDate);
+            writer.append((str.size() + 1) + "| \t Score: " + score + "\tLine: " + line + "\t TimeBegin: " + timeStar + "\t TimeEnd: " + formattedDate);
             writer.newLine();
 
 	        } catch (IOException e) {
@@ -610,7 +617,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	}
 	
 	public void readScore() {
-		String FILE_URL = "Score.txt";
+		String FILE_URL = "Test/Score.txt";
     	File file = new File(FILE_URL);
         InputStream inputStream;
         try (
