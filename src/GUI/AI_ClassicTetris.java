@@ -58,9 +58,9 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 			public void actionPerformed(ActionEvent e) {
 //				if (index == 0) {
 				if (true) {
-//					do {
+					do {
 						p.down();
-//					} while (p.check(b));
+					} while (p.check(b));
 					printArray(b);
 //					p.display();
 					if (!p.check(b)) {
