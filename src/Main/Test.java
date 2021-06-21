@@ -1,5 +1,8 @@
 package Main;
 
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,9 +11,35 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public class Test {
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-	public static void readScore() {
+import Class.Cubes;
+
+public class Test extends JFrame{
+	Container cn;
+	public Test() {
+		// TODO Auto-generated constructor stub
+		super("Thong ke");
+		cn = init();
+	}
+	
+	public Container init() {
+		Container cn = this.getContentPane();
+		cn.add(new JLabel(readScore()));
+		this.setVisible(true);
+		this.setSize(500, 80);
+		this.setLocationRelativeTo(null);
+		setResizable(false);
+		
+//		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		return cn;
+	}
+	
+	public String readScore() {
 		String FILE_URL = "Score.txt";
     	File file = new File(FILE_URL);
         InputStream inputStream;
@@ -34,13 +63,13 @@ public class Test {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        System.out.println("Score: " + sum2 / N2 + " Line: " + sum / N + "| " + N);
+        return "Score: " + sum2 / N2 + "\t Line: " + sum / N + " \t   | " + N;
 	}
 	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		readScore();
+		new Test();
 	}
 
 }

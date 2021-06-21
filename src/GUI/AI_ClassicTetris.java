@@ -43,8 +43,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	int index = delay;
 	int score = 0;
 	int line = 0;
-	int NN = 0;
-	String str[] = new String[10000];
+	Vector <String> str = new Vector<>();
 	boolean die = false;
 	JButton bt[][] = new JButton[M + 5][N + 9];
 	boolean b[][] = new boolean[M + 5][N + 9];
@@ -590,8 +589,8 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	             OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
 	             BufferedWriter writer = new BufferedWriter(osw)
 	        ) {
-			for (int i = 0; i < NN; i++) {
-				writer.append(str[i]);
+			for (int i = 0; i < str.size(); i++) {
+				writer.append(str.elementAt(i));
 	            writer.newLine();
 			}
 			
@@ -611,7 +610,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	}
 	
 	public void readScore() {
-		NN = 0;
 		String FILE_URL = "Score.txt";
     	File file = new File(FILE_URL);
         InputStream inputStream;
@@ -622,7 +620,7 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
         	){
 				String line;
 				while ((line = reader.readLine()) != null) {
-					str[NN++] = line;
+					str.add(line);
 				}
 
 			} catch (IOException e) {
@@ -633,7 +631,6 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public static void main(String[] args) {
