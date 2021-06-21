@@ -54,8 +54,8 @@ public class Test extends JFrame{
         	){
 				String line;
 				while ((line = reader.readLine()) != null) {
-					sum += Integer.parseInt(line.split("\t")[1].split(": ")[1]);
-					sum2 += Integer.parseInt(line.split("\t")[0].split(": ")[1]);
+					sum += Integer.parseInt(line.split("\t")[2].split(": ")[1]);
+					sum2 += Integer.parseInt(line.split("\t")[1].split(": ")[1]);
 					N++;
 					N2++;
 				}

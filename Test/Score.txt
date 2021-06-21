@@ -1,1 +1,4 @@
-
+1| 	 Score: 1111	Line: 529	 TimeBegin: 21-06-2021 22:45:15	 TimeEnd: 21-06-2021 22:51:00
+2| 	 Score: 3559	Line: 1873	 TimeBegin: 21-06-2021 22:45:20	 TimeEnd: 21-06-2021 22:57:10
+3| 	 Score: 3934	Line: 2174	 TimeBegin: 21-06-2021 22:45:17	 TimeEnd: 21-06-2021 22:58:02
+4| 	 Score: 1457	Line: 753	 TimeBegin: 21-06-2021 22:55:12	 TimeEnd: 21-06-2021 22:59:42
