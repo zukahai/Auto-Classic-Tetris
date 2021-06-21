@@ -444,9 +444,12 @@ public class AI_ClassicTetris extends JFrame implements KeyListener{
 	
 	public void update() {
 		if (die){
-			JOptionPane.showMessageDialog(null, "Your Score: " + score + "\n" + "Line: " + line);
+//			JOptionPane.showMessageDialog(null, "Your Score: " + score + "\n" + "Line: " + line);
 			printScore();
-			System.exit(0);
+//			System.exit(0);
+			new AI_ClassicTetris();
+			timer.stop();
+			this.dispose();
 		}
 		int countR = 0;
 		for (int i = M + 2; i >= 1; i--) {

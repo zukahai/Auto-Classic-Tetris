@@ -40,7 +40,7 @@ public class Test extends JFrame{
 	}
 	
 	public String readScore() {
-		String FILE_URL = "Score.txt";
+		String FILE_URL = "Test/Score.txt";
     	File file = new File(FILE_URL);
         InputStream inputStream;
         int N = 0;
